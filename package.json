@@ -14,7 +14,8 @@
     "@ant-design/icons": "^4.8.0",
     "@ant-design/pro-components": "^2.3.35",
     "@umijs/max": "^4.0.33",
-    "antd": "^4.24.4"
+    "antd": "^4.24.4",
+    "mockjs": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",

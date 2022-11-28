@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from '@umijs/max';
 import { Layout } from 'antd';
 import { CommonSider } from '@/components/Layout';
+import styles from './index.less';
 
 const Home: React.FC = () => {
   const menuList = [
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
   return (
     <Layout>
       <CommonSider menuList={menuList} />
-      <Layout.Content>
+      <Layout.Content className={styles['main-content']}>
         <Outlet />
       </Layout.Content>
     </Layout>
