@@ -16,11 +16,23 @@ export const deleteUser = async (params: { userId?: number }) => {
 
 export const addUser = async (params?: {
   name?: string;
-  adderss?: string;
+  address?: string;
   date?: string;
 }) => {
   return request('/api/user', {
     method: 'POST',
     data: { ...params },
+  });
+};
+export const editUserInfo = async (params?: {
+  id?: number;
+  name?: string;
+  address?: string;
+  date?: string;
+}) => {
+  return request('/api/user', {
+    method: 'PUT',
+    params: { id: params?.id },
+    data: { name: params?.name, address: params?.address, date: params?.date },
   });
 };

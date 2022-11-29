@@ -51,4 +51,18 @@ export default {
 
     res.status(200).json({ success: true, data: newItem });
   },
+  'PUT /api/user': (req: any, res: any) => {
+    const { id } = req.query;
+    const { name, address, date } = req.body;
+    data.userList.map((item) => {
+      if (item.id === Number(id)) {
+        item.name = name;
+        item.address = address;
+        item.date = date;
+      }
+      return item;
+    });
+
+    res.status(200).json({ success: true, data: { list: data.userList } });
+  },
 };

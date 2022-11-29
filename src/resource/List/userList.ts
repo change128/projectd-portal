@@ -28,6 +28,8 @@ export const useUserList = () => {
 
   const fetchUserList = useCallback(async () => {
     setLoading(true);
+    console.log(name);
+
     api.UserController.queryUserList({ userId, name })
       .then((res) => {
         setUsers(res.data.userList);
@@ -46,11 +48,14 @@ export const useUserList = () => {
         case UserActionType.ADD:
           await api.UserController.addUser(args.body);
           break;
+        case UserActionType.UPDATE:
+          await api.UserController.editUserInfo(args.body);
+          break;
       }
       message.success('操作成功');
       fetchUserList();
     },
-    [],
+    [name],
   );
   useEffect(() => {
     fetchUserList();

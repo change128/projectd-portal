@@ -4,12 +4,14 @@ import styles from './index.less';
 import { UserActionType } from '@/resource/List/userList';
 import { useCallback, useState } from 'react';
 import { ListOptionModal } from './ListOptionModal';
+import dayjs from 'dayjs';
 
 const UserList: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { users = [], setName, loading, updateUserPolicy } = useUserList();
   const [form] = Form.useForm();
   const [modalAction, setModalAction] = useState<'create' | 'modify'>('create');
+  const [editId, setEditId] = useState<number | undefined>(undefined);
   const openModal = (action: 'create' | 'modify', record?: object) => {
     setModalAction(action);
     if (action === 'create') {
@@ -22,10 +24,21 @@ const UserList: React.FC = () => {
   };
   const onOK = useCallback(async () => {
     const formData = await form.getFieldsValue();
-    if (modalAction === 'create') {
-      updateUserPolicy({ key: UserActionType.ADD, body: formData });
+    const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
+
+    if (modalAction === 'modify' && editId) {
+      updateUserPolicy({
+        key: UserActionType.UPDATE,
+        body: { ...formData, date, id: editId },
+      });
     }
-  }, [modalAction]);
+    if (modalAction === 'create') {
+      updateUserPolicy({
+        key: UserActionType.ADD,
+        body: { ...formData, date },
+      });
+    }
+  }, [modalAction, editId]);
   return (
     <div className={styles['list-wrapper']}>
       <Input
@@ -55,6 +68,7 @@ const UserList: React.FC = () => {
                 type="primary"
                 onClick={() => {
                   openModal('modify', item);
+                  setEditId(item.id);
                 }}
               >
                 编辑
@@ -76,7 +90,7 @@ const UserList: React.FC = () => {
           >
             <div>
               <div>name:{item.name}</div>
-              <div>adderss:{item.address}</div>
+              <div>address:{item.address}</div>
               <div>date:{item.date}</div>
             </div>
           </List.Item>
